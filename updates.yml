@@ -1,0 +1,15 @@
+- name: Update packages on Debian-based and CentOS systems
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update package cache on Debian-based systems
+      when: ansible_os_family == 'Debian'
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Update package cache on CentOS systems
+      when: ansible_os_family == 'RedHat'
+      yum:
+       update_only: yes
+       update_cache: yes
