@@ -1,18 +1,10 @@
 - hosts: all
   become: true
   pre_tasks:
-    - name: Update repository on Debian-based systems
+    - name: Update repository 
       tags: always
       changed_when: false   
-      when: ansible_os_family == 'Debian'
-      apt:
-        update_cache: yes
-
-    - name: Update repository on CentOS systems
-      tags: always
-      changed_when: false
-      when: ansible_os_family == 'RedHat'
-      yum:
+      package:
         update_cache: yes
 
 - hosts: all
