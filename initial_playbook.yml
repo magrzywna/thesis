@@ -1,0 +1,40 @@
+- hosts: all
+  become: true
+  pre_tasks:
+    - name: Update package cache on Debian-based systems
+      tags: always
+      when: ansible_os_family == 'Debian'
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Update package cache on CentOS systems
+      tags: always
+      when: ansible_os_family == 'RedHat'
+      yum:
+        update_only: yes
+        update_cache: yes
+
+
+- hosts: all
+  become: true
+  tasks:
+    - name: create ansible user
+      user:
+       name: ansible-automate
+       groups: root    
+
+    - name: add ssh key for ansible-automate account
+      tags: always
+      authorized_key:
+        user: ansible-automate
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILTcKkJ/QfC0TBmeUwGusFaitaDHHMcIQHa7wSHhoJDe ansible"
+
+    - name: add sudoers file for ansible-automate
+      tags: always
+      copy:
+        src: sudoer_ansible-automate
+        dest: /etc/sudoers.d/ansible-automate
+        owner: root
+        group: root
+        mode: 0440
