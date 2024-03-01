@@ -2,3 +2,14 @@
   authorized_key:
     user: ansible-automate
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILTcKkJ/QfC0TBmeUwGusFaitaDHHMcIQHa7wSHhoJDe ansible"
+
+- name: Apply ssh template
+  tags: ssh
+  template:
+    src: "{{ ssh_template }}"
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_sshd
+

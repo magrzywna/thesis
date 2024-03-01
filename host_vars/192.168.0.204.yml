@@ -1,3 +1,3 @@
 mariadb_package_name: mariadb-server
 ssh_users: "{{ ssh_allow }}"
-ssh_template: sshd_config_debian.j2
+ssh_template: sshd_config_debian.j2 
