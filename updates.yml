@@ -1,90 +1,37 @@
 - hosts: all
   become: true
   pre_tasks:
-    - name: Update package cache on Debian-based systems
+    - name: Update repository on Debian-based systems
       tags: always
+      changed_when: false   
       when: ansible_os_family == 'Debian'
       apt:
         update_cache: yes
-        upgrade: dist
 
-    - name: Update package cache on CentOS systems
+    - name: Update repository on CentOS systems
       tags: always
+      changed_when: false
       when: ansible_os_family == 'RedHat'
       yum:
-        update_only: yes
         update_cache: yes
 
-    - name: add ssh key for ansible-automate account
-      tags: always
-      authorized_key:
-        user: ansible-automate
-        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILTcKkJ/QfC0TBmeUwGusFaitaDHHMcIQHa7wSHhoJDe ansible"
+- hosts: all
+  tags: always
+  become: true
+  roles:
+    - basic
 
+- hosts: unifi_controllers
+  become: true
+  roles:
+    - unifi_controllers
+ 
 - hosts: db_servers
   become: true
-  tasks:
+  roles:
+    - db_servers
  
-  - name: install mariadb server package (CentOS)
-    when: ansible_os_family == 'RedHat'
-    yum:
-     name: mariadb
-     state: latest
-  
-  - name: install mariadb server
-    when: ansible_os_family == 'Debian'
-    apt:
-      name: mariadb-server
-      state: latest
-
-- name: Unifi installation on Ubuntu/Debian
-  hosts: unifi_controllers   
+- hosts: file_servers
   become: true
-  tasks:
-
-  - name: Install ca-certificates and apt-transport-https
-    apt:
-      name:
-      - ca-certificates
-      - apt-transport-https
-      state: present
-
-  - name: Add new source list entry
-    lineinfile:
-      path: /etc/apt/sources.list
-      line: "deb [ arch=amd64,arm64 ] https://www.ui.com/downloads/unifi/debian stable ubiquiti"  # Replace with your source list entry
-      state: present
-
-  - name: Download UniFi repository GPG key
-    get_url:
-      url: "https://dl.ui.com/unifi/unifi-repo.gpg"
-      dest: "/etc/apt/trusted.gpg.d/unifi-repo.gpg"
- 
-  - name: Download MongoDB GPG key
-    get_url:
-      url: "https://www.mongodb.org/static/pgp/server-3.6.asc"
-      dest: "/etc/apt/trusted.gpg.d/mongodb.gpg"
-
-  - name: Add MongoDB repository
-    apt_repository:
-      repo: "deb [trusted=yes] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/3.6 multiverse"
-      state: present
-      filename: "mongodb-org-3.6.list"
-
-  - name: Download libssl1.1 package
-    when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] != 'Ubuntu'
-    get_url:
-      url: "http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb"
-      dest: "/tmp/libssl1.1.deb"
-
-  - name: Install libssl1.1 package
-    when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] != 'Ubuntu'    
-    apt: 
-      deb: /tmp/libssl1.1.deb 
-
-  - name: Install UniFi
-    apt:
-      name: unifi
-      state: present
-      update_cache: yes
-
+  roles:
+    - file_servers

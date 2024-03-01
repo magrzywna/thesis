@@ -1,0 +1,53 @@
+  - name: Install ca-certificates and apt-transport-https
+    tags: debian,ubuntu,unifi
+    apt:
+      name:
+      - ca-certificates
+      - apt-transport-https
+      state: present
+
+  - name: Add new source list entry
+    tags: debian,ubuntu,unifi
+    lineinfile:
+      path: /etc/apt/sources.list
+      line: "deb [ arch=amd64,arm64 ] https://www.ui.com/downloads/unifi/debian stable ubiquiti"  # Replace with your source list entry
+      state: present
+
+  - name: Download UniFi repository GPG key
+    tags: debian,ubuntu,unifi
+    get_url:
+      url: "https://dl.ui.com/unifi/unifi-repo.gpg"
+      dest: "/etc/apt/trusted.gpg.d/unifi-repo.gpg"
+
+  - name: Download MongoDB GPG key
+    tags: debian,ubuntu,unifi
+    get_url:
+      url: "https://www.mongodb.org/static/pgp/server-3.6.asc"
+      dest: "/etc/apt/trusted.gpg.d/mongodb.gpg"
+
+  - name: Add MongoDB repository
+    tags: debian,ubuntu,unifi
+    apt_repository:
+      repo: "deb [trusted=yes] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/3.6 multiverse"
+      state: present
+      filename: "mongodb-org-3.6.list"
+
+  - name: Download libssl1.1 package (Debian)
+    tags: debian,unifi
+    when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] != 'Ubuntu'
+    get_url:
+      url: "http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb"
+      dest: "/tmp/libssl1.1.deb"
+
+  - name: Install libssl1.1 package (Debian)
+    tags: debian,unifi
+    when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] != 'Ubuntu'
+    apt:
+      deb: /tmp/libssl1.1.deb
+
+  - name: Install UniFi
+    tags: debian,ubuntu,unifi
+    apt:
+      name: unifi
+      state: present
+      update_cache: yes

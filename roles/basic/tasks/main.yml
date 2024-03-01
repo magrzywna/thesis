@@ -1,0 +1,4 @@
+- name: add ssh key for ansible-automate account
+  authorized_key:
+    user: ansible-automate
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILTcKkJ/QfC0TBmeUwGusFaitaDHHMcIQHa7wSHhoJDe ansible"

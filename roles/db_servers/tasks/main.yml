@@ -1,0 +1,13 @@
+- name: install mariadb server (CentOS)
+  tags: db
+  when: ansible_os_family == 'RedHat'
+  yum:
+    name: mariadb
+    state: latest
+
+- name: install mariadb server (Debian, Ubuntu)
+  tags: db
+  when: ansible_os_family == 'Debian'
+  apt:
+    name: mariadb-server
+    state: latest
