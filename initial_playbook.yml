@@ -38,3 +38,15 @@
         owner: root
         group: root
         mode: 0440
+
+- hosts: all
+  become: true
+  tags: ubuntu,debian,ufw
+  tasks:
+
+    - name: Install ufw
+      apt:
+        name: ufw
+        state: present
+      when: ansible_distribution == 'Debian'
+

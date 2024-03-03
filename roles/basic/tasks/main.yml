@@ -13,3 +13,34 @@
     mode: 0644
   notify: restart_sshd
 
+- name: Apply firewall template
+  tags: ufw
+  template:
+    src: ufw.j2
+    dest: /etc/default/ufw
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_ufw
+  when: ansible_distribution == 'Debian'
+
+- name: Allow outgoing traffic in UFW
+  shell: ufw default allow outgoing
+  when: ansible_distribution == 'Debian'
+
+- name: Set default UFW rule to deny incoming
+  shell: ufw default deny incoming
+  when: ansible_distribution == 'Debian'
+
+- name: Allow SSH (port 22) with UFW
+  ufw:
+    rule: allow
+    port: 22
+  when: ansible_distribution == 'Debian'
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+  when: ansible_distribution == 'Debian'
+
+
