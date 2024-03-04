@@ -1,5 +1,9 @@
 [all:vars]
 ssh_allow="mgrzywna ansible-automate asdasd"
+debian_ufw_dest_url="/etc/default/ufw"
+centos_ufw_dest_url="/etc/ufw/ufw.conf"
+debian_ufw_src_url="ufw_debian.j2"
+centos_ufw_src_url="ufw_centos.j2"
 
 [db_servers]
 192.168.0.200

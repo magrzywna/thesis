@@ -1,3 +1,5 @@
 mariadb_package_name: mariadb-server
 ssh_users: "{{ ssh_allow }}"
 ssh_template: sshd_config_debian.j2
+ufw_src: "{{ debian_ufw_src_url }}"
+ufw_dst: "{{ debian_ufw_dest_url }}"

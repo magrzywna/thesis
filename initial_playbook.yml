@@ -43,10 +43,36 @@
   become: true
   tags: ubuntu,debian,ufw
   tasks:
+    
+    - name: Install Extra Packages for Enterprise Linux
+      when: ansible_os_family == 'RedHat'
+      yum:
+        name: epel-release
 
     - name: Install ufw
-      apt:
+      package:
         name: ufw
         state: present
-      when: ansible_distribution == 'Debian'
 
+
+    - name: Allow outgoing traffic in UFW
+      shell: ufw default allow outgoing
+
+    - name: Set default UFW rule to deny incoming
+      shell: ufw default deny incoming
+
+    - name: Allow SSH (port 22) with UFW
+      ufw:
+        rule: allow
+        port: "22"
+        proto: tcp
+
+    - name: Turn on UFW
+      ufw:
+        state: enabled
+
+    - name: Start and enable UFW service
+      service:
+        name: ufw
+        enabled: yes
+        state: started
