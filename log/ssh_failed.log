@@ -1,5 +1,0 @@
-Mar  7 20:54:13 ubuntu01 sshd[39009]: Failed password for invalid user dasdas from 192.168.0.10 port 1057 ssh2
-Mar  7 20:54:16 ubuntu01 sshd[39009]: Failed password for invalid user dasdas from 192.168.0.10 port 1057 ssh2
-Mar  7 20:54:19 ubuntu01 sshd[39009]: Failed password for invalid user dasdas from 192.168.0.10 port 1057 ssh2
-Mar  7 20:55:43 ubuntu01 sshd[39009]: Failed password for invalid user dasdas from 192.168.0.10 port 1057 ssh2
-Mar  7 20:55:58 ubuntu01 sshd[39009]: Failed password for invalid user dasdas from 192.168.0.10 port 1057 ssh2
