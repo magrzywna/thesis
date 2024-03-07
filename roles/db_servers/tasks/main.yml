@@ -4,3 +4,8 @@
     name: "{{ mariadb_package_name }}"
     state: latest
 
+- name: Allow SSH (port 22) with UFW
+  ufw:
+    rule: allow
+    port: "3306"
+    proto: tcp

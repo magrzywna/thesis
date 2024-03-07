@@ -23,3 +23,20 @@
     mode: 0644
   notify: restart_ufw
 
+- name: Configure rsyslog for SSH connections
+  tags: logs
+  template:
+    src: "sshconf.j2"
+    dest: /etc/rsyslog.d/ssh.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_rsyslog
+
+- name: Add local time to rsyslog dumps
+  tags: logs
+  lineinfile:
+    path: /etc/rsyslog.conf
+    regexp: '^$LocalTime'
+    line: $LocalTime on
+  notify: restart_rsyslog

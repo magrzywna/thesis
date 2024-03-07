@@ -1,0 +1,5 @@
+# Log SSH login attempts
+auth.*                                                  /var/log/ssh.log
+
+# Forward SSH log file to centralized log server
+*.* @@192.168.0.210:514

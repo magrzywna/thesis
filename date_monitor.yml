@@ -1,0 +1,11 @@
+- name: Monitor Date and Time
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Get current date and time
+      command: date
+      register: date_output
+
+    - name: Display current date and time
+      debug:
+        msg: "Current date and time on {{ ansible_host }}: {{ date_output.stdout }}"

@@ -51,3 +51,33 @@
       name: unifi
       state: present
       update_cache: yes
+
+  - name: Allow TCP port 8080
+    ufw:
+      rule: allow
+      port: "8080"
+      proto: tcp
+
+  - name: Allow TCP port 8443
+    ufw:
+      rule: allow
+      port: "8443"
+      proto: tcp
+
+  - name: Allow TCP port 8880
+    ufw:
+      rule: allow
+      port: "8880"
+      proto: tcp
+
+  - name: Allow TCP port 8843
+    ufw:
+      rule: allow
+      port: "8843"
+      proto: tcp
+
+  - name: Allow TCP port 3478
+    ufw:
+      rule: allow
+      port: "3478"
+      proto: tcp

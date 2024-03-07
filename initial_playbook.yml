@@ -76,3 +76,19 @@
         name: ufw
         enabled: yes
         state: started
+
+    - name: Install/Update nano
+      package:
+        name: nano
+        state: latest
+
+    - name: Install rsyslog on Debian/Ubuntu
+      package:
+        name: rsyslog
+        state: latest
+
+   
+    - name: Set timezone
+      timezone:
+        name: CET    
+

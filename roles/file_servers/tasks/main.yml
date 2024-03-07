@@ -3,3 +3,27 @@
   package:
     name: samba
     state: latest
+
+- name: Allow UDP port 137
+  ufw:
+    rule: allow
+    port: "137"
+    proto: udp
+
+- name: Allow UDP port 138
+  ufw:
+    rule: allow
+    port: "138"
+    proto: udp
+
+- name: Allow TCP port 139
+  ufw:
+    rule: allow
+    port: "139"
+    proto: tcp
+
+- name: Allow TCP port 445
+  ufw:
+    rule: allow
+    port: "445"
+    proto: tcp
