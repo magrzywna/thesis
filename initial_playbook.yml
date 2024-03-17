@@ -92,3 +92,13 @@
       timezone:
         name: CET    
 
+    - name: Install Fail2ban 
+      package:
+        name: fail2ban
+        state: present
+
+    - name: Run and enable Fail2ban
+      service:
+        name: fail2ban
+        state: started
+        enabled: yes
