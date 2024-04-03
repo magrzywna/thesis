@@ -115,3 +115,35 @@
         name: fail2ban
         state: started
         enabled: yes
+
+- hosts: all
+  become: yes
+  tags: selinux,apparmor
+  tasks:
+  - name: Install AppArmor package
+    when: ansible_os_family == 'Debian'
+    package:
+      name: apparmor
+      state: present
+
+  - name: Ensure AppArmor service is started and enabled
+    when: ansible_os_family == 'Debian'
+    systemd:
+      name: apparmor
+      state: started
+      enabled: yes
+ 
+
+  - name: Install SELinux on CentOS
+    when: ansible_os_family == 'RedHat'
+    package:
+      name: ['selinux-policy-targeted', 'policycoreutils']
+      state: present
+  
+  - name: Set SELinux to enforcing
+    when: ansible_os_family == 'RedHat'
+    tags: selinux
+    selinux:
+      policy: targeted
+      state: enforcing
+

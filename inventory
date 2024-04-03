@@ -12,7 +12,6 @@ account_globalAdmin = "globalAdmin"
 [db_servers]
 192.168.0.200
 192.168.0.202
-192.168.0.207
 
 [unifi_controllers]
 192.168.0.201
