@@ -1,0 +1,5 @@
+- hosts: unifi_controllers
+  become: true
+  roles:
+    - basic
+    - unifi_controllers

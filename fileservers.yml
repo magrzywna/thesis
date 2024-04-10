@@ -1,0 +1,5 @@
+- hosts: file_servers
+  become: true
+  roles:
+    - basic
+    - file_servers

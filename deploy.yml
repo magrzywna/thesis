@@ -7,23 +7,7 @@
       package:
         update_cache: yes
 
-- hosts: all
-  tags: always
-  become: true
-  roles:
-    - basic
-
-- hosts: unifi_controllers
-  become: true
-  roles:
-    - unifi_controllers
+- import_playbook: unifi_controllers.yml
+- import_playbook: dbservers.yml
+- import_playbook: fileservers.yml
  
-- hosts: db_servers
-  become: true
-  roles:
-    - db_servers
- 
-- hosts: file_servers
-  become: true
-  roles:
-    - file_servers
