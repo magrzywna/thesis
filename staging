@@ -1,4 +1,4 @@
-# file: inventory
+# file: staging
 [all:vars]
 ssh_allow="mgrzywna ansible-automate asdasd"
 debian_ufw_dest_url="/etc/default/ufw"
@@ -11,14 +11,8 @@ account_globalAdmin = "globalAdmin"
 
 
 [db_servers]
-192.168.0.200
-192.168.0.202
+192.168.0.207
 
 [unifi_controllers]
-192.168.0.201
-192.168.0.205
 
 [file_servers]
-192.168.0.203
-192.168.0.204
-
