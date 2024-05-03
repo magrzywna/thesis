@@ -1,8 +1,3 @@
-- name: add ssh key for ansible-automate account
-  authorized_key:
-    user: ansible-automate
-    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILTcKkJ/QfC0TBmeUwGusFaitaDHHMcIQHa7wSHhoJDe ansible"
-
 - name: Apply ssh template
   tags: ssh
   template:
@@ -12,16 +7,6 @@
     group: root
     mode: 0644
   notify: restart_sshd
-
-- name: Apply firewall template
-  tags: ufw
-  template:
-    src: "{{ ufw_src }}"
-    dest: "{{ ufw_dst }}"
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart_ufw
 
 - name: Configure rsyslog for SSH connections
   tags: logs

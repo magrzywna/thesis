@@ -5,26 +5,50 @@
     name: samba
     state: latest
 
-- name: Allow UDP/137
+- name: Add UFW rules for Debian
+  when: ansible_os_family == 'Debian'
   ufw:
     rule: allow
-    port: "137"
-    proto: udp
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+  loop:
+    - { port: "137", proto: "udp" }
+    - { port: "138", proto: "udp" }
+    - { port: "139", proto: "tcp" }
+    - { port: "445", proto: "tcp" }
 
-- name: Allow UDP/138
-  ufw:
-    rule: allow
-    port: "138"
-    proto: udp
+- name: Restart UFW service
+  when: ansible_os_family == 'Debian'
+  service:
+    name: ufw
+    state: restarted
 
-- name: Allow TCP/139
-  ufw:
-    rule: allow
-    port: "139"
-    proto: tcp
+- name: FirewallD allow UDP/137-138 for CentOS
+  when: ansible_os_family == 'RedHat' 
+  ansible.posix.firewalld:
+    zone: public
+    port: 137-138/udp
+    permanent: true
+    state: enabled
 
-- name: Allow TCP/445
-  ufw:
-    rule: allow
-    port: "445"
-    proto: tcp
+- name: FirewallD allow TCP/139 for CentOS
+  when: ansible_os_family == 'RedHat'
+  ansible.posix.firewalld:
+    zone: public
+    port: 139/tcp
+    permanent: true
+    state: enabled
+
+- name: FirewallD allow TCP/445 for CentOS
+  when: ansible_os_family == 'RedHat'
+  ansible.posix.firewalld:
+    zone: public
+    port: 445/tcp
+    permanent: true
+    state: enabled
+
+- name: Restart Firewalld service
+  when: ansible_os_family == 'RedHat'
+  service:
+    name: firewalld
+    state: restarted

@@ -1,5 +1,3 @@
 mariadb_package_name: mariadb
 ssh_users: "{{ ssh_allow }}"
 ssh_template: sshd_config_centos.j2
-ufw_src: "{{ centos_ufw_src_url }}"
-ufw_dst: "{{ centos_ufw_dest_url }}"

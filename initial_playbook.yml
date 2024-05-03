@@ -40,25 +40,24 @@
         group: root
         mode: 0440
 
-- hosts: all
+
+- hosts: ubuntu:debian
+  gather_facts: no
   become: true
   tags: ubuntu,debian,ufw
   tasks:    
-    - name: Install Extra Packages for Enterprise Linux
-      when: ansible_os_family == 'RedHat'
-      yum:
-        name: epel-release
-
     - name: Install ufw
       package:
         name: ufw
         state: present
 
-    - name: Allow outgoing traffic in UFW
-      shell: ufw default allow outgoing
-
-    - name: Set default UFW rule to deny incoming
-      shell: ufw default deny incoming
+    - name: Apply firewall template
+      copy:
+        src: ufw
+        dest: /etc/default/ufw 
+        owner: root
+        group: root
+        mode: 0644
 
     - name: Allow SSH (port 22) with UFW
       ufw:
@@ -76,6 +75,26 @@
         enabled: yes
         state: started
 
+- hosts: centos
+  gather_facts: no
+  become: true
+  tasks:
+    - name: Install firewalld package
+      yum:
+        name: firewalld
+        state: present
+
+    - name: Update firewalld package
+      yum:
+        name: firewalld
+        state: latest
+
+    - name: Start and enable firewalld service
+      service:
+        name: firewalld
+        state: started
+        enabled: yes 
+
 - hosts: all
   gather_facts: no
   become: true
@@ -91,7 +110,7 @@
   gather_facts: no
   tags: rsyslog
   tasks:
-    - name: Install rsyslog on Debian/Ubuntu
+    - name: Install rsyslog
       package:
         name: rsyslog
         state: latest

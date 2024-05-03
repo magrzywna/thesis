@@ -1,1 +1,2 @@
+#file: files/sudoer_ansible-automate
 ansible-automate ALL=(ALL) NOPASSWD: ALL

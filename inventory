@@ -1,15 +1,11 @@
 # file: inventory
 [all:vars]
-ssh_allow="mgrzywna ansible-automate asdasd"
-debian_ufw_dest_url="/etc/default/ufw"
-centos_ufw_dest_url="/etc/ufw/ufw.conf"
-debian_ufw_src_url="ufw_debian.j2"
-centos_ufw_src_url="ufw_centos.j2"
+ssh_allow="mgrzywna ansible-automate"
 account_mateusz.grzywna = "mateusz.grzywna"
 account_test = "test"
 account_globalAdmin = "globalAdmin"
 
-
+#purpose
 [db_servers]
 192.168.0.200
 192.168.0.202
@@ -22,3 +18,15 @@ account_globalAdmin = "globalAdmin"
 192.168.0.203
 192.168.0.204
 
+#OS type
+[ubuntu]
+192.168.0.200
+192.168.0.201
+
+[centos]
+192.168.0.202
+192.168.0.203
+
+[debian]
+192.168.0.204
+192.168.0.205
